@@ -1,0 +1,90 @@
+/**
+ * ITC Full-Stack Bootcamp
+ * React Micro Blogging assignment
+ * 24/07/2022
+ * Asaf Gilboa
+*/
+
+
+* {
+  box-sizing: border-box;
+}
+html, body, .main {
+  height: 100%;
+  padding: 0;
+  background-color: #243447;
+  font-family: 'Roboto', sans-serif;
+}
+
+.feed {
+  display: flex;
+  flex-direction: column;
+}
+
+.createTweetContainer {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  margin-top: 1%;
+  border: 2px solid #cccccc;
+  border-radius: 6px;
+  padding: 1%;
+}
+
+#createTweetInput {
+  resize: none;
+  border: none;
+  background-color: #243447;
+  color: #cccccc;
+}
+#createTweetInput::placeholder {
+  color: #cccccc;
+}
+#createTweetInput:focus {
+  outline: none;
+}
+
+.formMessage {
+  color: #721c24;
+  background-color: #f8d7da;
+  border-radius: 4px;
+  height: fit-content;
+  padding: 0.75% 0;
+}
+
+.formBottomBar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#sendTweetBtn, .formMessage, #createTweetInput, .tweetContent {
+  font-size: 1.2vw;
+}
+.tweetContainer, #createTweetInput {
+  min-height: 18vh;
+  height: fit-content;
+}
+
+.tweetContainer, .createTweetContainer {
+  width: 46%;
+}
+
+.tweetContainer {
+  margin: auto;
+  margin-top: 1%;
+  background-color: #343A40;
+  border-radius: 6px;
+  padding: 1%;
+}
+
+.tweetHead {
+  display: flex;
+  justify-content: space-between;
+  color: #6c757d;
+  font-size: 1vw;
+}
+
+.tweetContent {
+  color: whitesmoke;
+}

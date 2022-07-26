@@ -12,7 +12,11 @@ export default function Tweet(props) {
     <div className='tweetContainer'>
         <div className="tweetHead">
             <span className="userName">{props.tweet.userName}</span>
-            <span className="tweetDate">{`${props.tweet.date}`}</span>
+            <span className="tweetDate">
+              {`${(new Date(props.tweet.date)).toTimeString().slice(0,8)} 
+              ${(new Date(props.tweet.date)).toDateString()}`}
+              </span>
+            {/* <span className="tweetDate">{`${props.tweet.date}`}</span> */}
         </div>
         <div className="tweetContent">{props.tweet.content}</div>
     </div>

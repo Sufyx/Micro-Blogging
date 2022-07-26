@@ -14,6 +14,20 @@ html, body, .main {
   padding: 0;
   background-color: #243447;
   font-family: 'Roboto', sans-serif;
+  font-style: normal;
+}
+
+.navBar {
+  display: flex;
+  position: sticky;
+  overflow: hidden;
+  margin: auto;
+  top: 0;
+  width: 80%;
+  height: 7vh;
+  background-color: #343A40;
+  color: white;
+  font-size: 1.5vw;
 }
 
 .feed {
@@ -21,11 +35,11 @@ html, body, .main {
   flex-direction: column;
 }
 
-.createTweetContainer {
+.createTweetForm {
   display: flex;
   flex-direction: column;
   margin: auto;
-  margin-top: 1%;
+  margin-top: 3%;
   border: 2px solid #cccccc;
   border-radius: 6px;
   padding: 1%;
@@ -66,7 +80,7 @@ html, body, .main {
   height: fit-content;
 }
 
-.tweetContainer, .createTweetContainer {
+.tweetContainer, .createTweetForm {
   width: 46%;
 }
 
@@ -87,4 +101,9 @@ html, body, .main {
 
 .tweetContent {
   color: whitesmoke;
+}
+
+.loader {
+  width: 4vw;
+  height: 4vw;
 }

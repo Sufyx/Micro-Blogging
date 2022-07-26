@@ -6,33 +6,41 @@
 */
 
 import './App.css';
+import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import CreateTweet from './components/CreateTweet';
 import TweetsList from './components/TweetsList';
-
-
+// import NavBar from './components/NavBar';
 
 
 function App() {
 
-  const [tweetList, setFTweetList] = useState(
-    localStorage.getItem('tweetList') !== null ? 
-    JSON.parse(localStorage.getItem('tweetList')) : []); 
+  const [tweetList, setTweetList] = useState([]);
+  const [loaderToggle, setLoaderToggle] = useState('none');
+
 
   useEffect(() => {
-    localStorage.setItem('tweetList', JSON.stringify(tweetList));
-  }, [tweetList]);
+    fetchTweets();
+  }, []);
 
-  function addTweet(tweet) {
-    setFTweetList(tweetList => [tweet, ...tweetList]);
+  async function fetchTweets() {
+    loading(true);
+    const tweetsFromServer = await axios.get(
+      'https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet');
+    setTweetList(tweetsFromServer.data.tweets);
+    loading(false);
   }
 
 
+  function loading(on) {
+    on ? setLoaderToggle('initial') : setLoaderToggle('none');
+  }
 
   return (
     <div className="main">
       <div className="feed">
-        <CreateTweet addTweet={addTweet}/>
+        <CreateTweet fetchTweets={fetchTweets} loading={loading} />
+        <div className="spinner-grow text-info m-auto mt-5 loader" style={{display:loaderToggle}} role="status"></div>
         <TweetsList tweetList={tweetList} />
       </div>
     </div>

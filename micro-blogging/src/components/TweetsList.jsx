@@ -13,8 +13,8 @@ export default function TweetsList(props) {
 
   return (
     <div className='tweetListContainer'>
-        {props.tweetList.map((tweet,index) => 
-            <Tweet tweet={tweet} key={index} />
+        {props.tweetList.map((tweet) => 
+            <Tweet tweet={tweet} key={tweet.id} />
         )}
     </div>
   )

@@ -5,15 +5,17 @@
  * Asaf Gilboa
 */
 
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useContext} from 'react';
+import TweetListContext from './TweetListContext';
 import uuid from 'react-uuid';
 import axios from 'axios';
 
-export default function CreateTweet(props) {
+export default function CreateTweet() {
 
   const [formText, setFormText] = useState('');
   const [formBtn, setFormBtn] = useState(false);
   const [formMessage, setFormMessage] = useState('');
+  const [tweetList, setTweetList] = useContext(TweetListContext);
 
 
   useEffect(() => {
@@ -32,11 +34,13 @@ export default function CreateTweet(props) {
       console.log('Spam control');
       return;
     }
-    // const userName = "Ash Ketchum";
-    const newTweet = {content: formText, userName: props.profileName, date: new Date().toISOString(), id:uuid()};
+    const newTweet = {
+      content: formText,
+      userName: JSON.parse(localStorage.getItem('profileName')),
+      date: new Date().toISOString(), id:uuid()
+    };
 
     setFormBtn(true);
-    props.loading(true);
     const response = await axios.post(
       'https://micro-blogging-dot-full-stack-course-services.ew.r.appspot.com/tweet',
       newTweet).catch(function (error) {
@@ -52,10 +56,10 @@ export default function CreateTweet(props) {
           setFormMessage(error.message);
         }
       });
-    props.fetchTweets();
     setFormText('');
-    props.loading(false);
     setFormBtn(false);
+    const newList = [newTweet, ...tweetList];
+    setTweetList(newList);
   }
 
 

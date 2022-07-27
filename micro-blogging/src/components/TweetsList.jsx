@@ -5,14 +5,17 @@
  * Asaf Gilboa
 */
 
-import React from 'react';
+import React, {useContext} from 'react';
+import TweetListContext from './TweetListContext';
 import Tweet from './Tweet';
 
-export default function TweetsList(props) {
+export default function TweetsList() {
+
+  const [tweetList, setTweetList] = useContext(TweetListContext);
 
   return (
     <div className='tweetListContainer'>
-        {props.tweetList.map((tweet) => 
+        {tweetList.map((tweet) => 
             <Tweet tweet={tweet} key={tweet.id} />
         )}
     </div>

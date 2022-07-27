@@ -32,8 +32,8 @@ export default function CreateTweet(props) {
       console.log('Spam control');
       return;
     }
-    const userName = "Ash Ketchum";
-    const newTweet = {content: formText, userName: userName, date: new Date().toISOString(), id:uuid()};
+    // const userName = "Ash Ketchum";
+    const newTweet = {content: formText, userName: props.profileName, date: new Date().toISOString(), id:uuid()};
 
     setFormBtn(true);
     props.loading(true);
@@ -65,7 +65,7 @@ export default function CreateTweet(props) {
          id="createTweetInput" placeholder="What do you have in mind..." value={formText}></textarea>
         <div className="formBottomBar">
             <span className="formMessage">{formMessage}</span>
-            <button onClick={publishClick} disabled={formBtn} className="btn btn-primary" id="sendTweetBtn">
+            <button onClick={publishClick} disabled={formBtn} className="submitBtn btn btn-primary">
                 Tweet
             </button>
         </div>

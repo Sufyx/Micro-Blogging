@@ -5,11 +5,10 @@
  * Asaf Gilboa
 */
 
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import Tweet from './Tweet';
 
 export default function TweetsList(props) {
-
 
   return (
     <div className='tweetListContainer'>

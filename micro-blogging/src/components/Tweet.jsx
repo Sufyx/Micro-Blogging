@@ -7,23 +7,23 @@
 
 import React, { useState, useContext, useEffect } from 'react';
 import FirebaseContext from '../context/FirebaseContext';
-// import TweetListContext from '../context/TweetListContext';
 import { getDocs } from "firebase/firestore";
 import { ref, getDownloadURL } from "firebase/storage";
 
 export default function Tweet(props) {
 
-  // const [tweetList, updateTweetList, profilePic] = useContext(TweetListContext);
-  const {usersColRef, storage} = useContext(FirebaseContext);
+  const {db, usersColRef, storage} = useContext(FirebaseContext);
   const [userName, setUserName] = useState("N/A");
   const [profilePic, setProfilePic] = useState('https://icon-library.com/images/default-profile-icon/default-profile-icon-6.jpg');
 
   useEffect(() => {
     getDocs(usersColRef).then((snapshot) => {
-      snapshot.docs.forEach((doc) => {
-        let data = { ...doc.data() };
+      snapshot.docs.forEach((document) => {
+        let data = { ...document.data() };
         if (data.userID === props.tweet.userID) {
           setUserName(data.userName);
+          // const tweetRef = doc(db, 'tweetList', props.tweet.id);
+          // setDoc(tweetRef,{ userName: data.userName }, { merge: true });
           getDownloadURL(ref(storage, data.userImg))
           .then((url) => {
             setProfilePic(url);
@@ -31,6 +31,7 @@ export default function Tweet(props) {
             setProfilePic('https://icon-library.com/images/default-profile-icon/default-profile-icon-6.jpg');
             console.error("Caught error: ", err.message);
           });
+          // break;
         }
       })
     }).catch(err => {

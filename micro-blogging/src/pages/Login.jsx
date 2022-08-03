@@ -21,7 +21,8 @@ export default function Login({connectUser}) {
   const [userEmail, setUserEmail] = useState('');
   const [userPassword, setUserPassword] = useState('');
   const [loginMode, setLoginMode] = useState('Login');
-  const [loginMessage, setLoginMessage] = useState("First time here? Click here to sign up");
+  const [loginMessage1, setLoginMessage1] = useState("First time here? ");
+  const [loginMessage2, setLoginMessage2] = useState("Click here to sign up");
   const [loginError, setLoginError] = useState('');
 
   useEffect(() => {
@@ -93,10 +94,12 @@ export default function Login({connectUser}) {
   function switchMode() {
     if (loginMode === "Login") {
       setLoginMode("Sign Up");
-      setLoginMessage("Already signed up? Click here to login")
+      setLoginMessage1("Already signed up? ")
+      setLoginMessage2("Click here to login")
     } else {
       setLoginMode("Login");
-      setLoginMessage("First time here? Click here to sign up")
+      setLoginMessage1("First time here? ")
+      setLoginMessage2("Click here to sign up")
     }
   }
 
@@ -118,7 +121,7 @@ export default function Login({connectUser}) {
         </div>
         <div className="profileBtnWrap">
           <button type='submit' onClick={saveClick} className="submitBtn profileBtn btn btn-primary">{loginMode}</button>
-          <span className="loginMode" onClick={switchMode}>{loginMessage}</span>
+          <span className="loginMode">{loginMessage1}<span onClick={switchMode} className="loginModeClick">{loginMessage2}</span></span>
         </div>
       </form>
       <div className="googleLogin">

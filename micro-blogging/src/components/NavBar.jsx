@@ -19,6 +19,7 @@ export default function NavBar(props) {
     useEffect(() => {
         localStorage.setItem('userSearchQuery', JSON.stringify(searchValue));
         if (!searchValue) {
+            localStorage.setItem('scrollCount', JSON.stringify(1));
             getNextTweets();
         }
       }, [searchValue]);
@@ -28,6 +29,7 @@ export default function NavBar(props) {
     }
 
     function searchClick() {
+        localStorage.setItem('scrollCount', JSON.stringify(1));
         const displayUserOnly = JSON.parse(localStorage.getItem('displayUserOnly'));
         if (displayUserOnly) return;
         getNextTweets(searchValue);

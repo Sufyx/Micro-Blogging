@@ -52,7 +52,7 @@ html, body, .main {
 .navItem:nth-child(2) {
   flex-grow: 1;
 }
-.navItem:hover {
+.navItem:hover, .navItem:active {
   color: white;
 }
 
@@ -246,11 +246,16 @@ html, body, .main {
 }
 
 .loginMode {
-  color: rgb(0, 106, 255);
+  color: whitesmoke;
   text-shadow: 0 0 2px #2166ac;
-  cursor: pointer;
+  cursor: default;
   font-size: 1.7vw;
 }
+.loginModeClick {
+  color: rgb(0, 106, 255); 
+  cursor: pointer;
+}
+
  .googleLogin {
   text-align: center;
   margin: 3% 10% 0 0;

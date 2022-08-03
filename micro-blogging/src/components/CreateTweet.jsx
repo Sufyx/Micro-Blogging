@@ -19,8 +19,8 @@ export default function CreateTweet() {
   const [formMessage, setFormMessage] = useState('');
   const [showOnlyUser, setShowOnlyUser] = useState(false);
   const [filterDisabled, setFilterDisabled] = useState(false);
-  const {getNextTweets, updateBG} = useContext(TweetListContext);
   const { auth, tweetColRef } = useContext(FirebaseContext);
+  const {getNextTweets, updateBG} = useContext(TweetListContext);
 
   useEffect(() => {
     if (formText.length > 140) {
@@ -58,7 +58,7 @@ export default function CreateTweet() {
   async function addTweet(tweet) {
     addDoc(tweetColRef, {
       content: tweet.content,
-      userName: tweet.userName,
+      // userName: tweet.userName,
       userID: tweet.userID,
       date: tweet.date,
       id: tweet.id

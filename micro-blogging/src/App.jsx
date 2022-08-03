@@ -34,7 +34,7 @@ const firebaseConfig = {
   appId: "1:744069185503:web:f1cbba300fb5c0cbe40e6a"
 };
 
-// backup firebase user for quota issues
+//** backup firebase user for quota issues
 // const firebaseConfig = {
 //   apiKey: "AIzaSyD9xElHz_e0-Ks2W7t5rZkVPHnOLjUVtQA",
 //   authDomain: "micro-blogging-d5804.firebaseapp.com",
@@ -67,6 +67,7 @@ function App() {
 
   useEffect(() => {
     const logged = JSON.parse(localStorage.getItem('userLogged'));
+    // const logged = auth.currentUser;
     if (logged) {
       getNextTweets();
     } else {
@@ -114,7 +115,8 @@ function App() {
       next = query(
         tweetColRef,
         where("userName", "==", userSearchQuery),
-        orderBy('date', 'desc'));
+        orderBy('date', 'desc'),
+        limit(10 * scrollCount));
     }
 
     loading(true);
@@ -142,12 +144,13 @@ function App() {
       })
     }
     const logged = JSON.parse(localStorage.getItem('userLogged'));
+    // const logged = auth.currentUser;
     if (!logged) {
       navigate('/login');
       return;
     }
     if (toPage === "home") {
-      navigate('/');
+      navigate('/'); 
       getNextTweets();
     }
   }
@@ -221,6 +224,7 @@ function App() {
       });
   }
 
+
   function scrollHandler() {
     const e = document.documentElement;
     let scrollPosition = Math.ceil(e.scrollTop + e.offsetHeight);
@@ -249,7 +253,7 @@ function App() {
 
   return (
     <div className={bgControl}>
-      <FirebaseContext.Provider value={{ auth, usersColRef, tweetColRef, storage }}>
+      <FirebaseContext.Provider value={{ db, auth, usersColRef, tweetColRef, storage }}>
         <TweetListContext.Provider value={{ tweetList, getNextTweets, profilePic, updateBG }}>
           <NavBar navClick={navClick} profileName={profileName} />
           <Routes >

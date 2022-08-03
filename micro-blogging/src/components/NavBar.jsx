@@ -1,39 +1,60 @@
-/** NAVBAR
+/**
  * ITC Full-Stack Bootcamp
  * React Micro Blogging assignment
  * 26/07/2022
  * Asaf Gilboa
 */
 
-import React, {useState} from 'react';
-import {Link} from 'react-router-dom';
-
+import React, {useContext, useState, useEffect} from 'react';
+import {NavLink} from 'react-router-dom';
+import FirebaseContext from '../context/FirebaseContext';
+import TweetListContext from '../context/TweetListContext';
 
 export default function NavBar(props) {
 
-    const [homeNav, setHomeNav] = useState('rgb(255, 255, 255)');
-    const [profileNav, setProfileNav] = useState('rgba(255, 255, 255, 0.5)');
+    const {auth} = useContext(FirebaseContext);
+    const {getNextTweets} = useContext(TweetListContext);
+    const [searchValue, setSearchValue] = useState('');
 
-
-    function handleClick(page) {
-        props.navClick(page);
-        if (page === "home") {
-            setHomeNav('rgb(255, 255, 255)');
-            setProfileNav('rgba(255, 255, 255, 0.5)');
-        } else {
-            setHomeNav('rgb(255, 255, 255, 0.5)');
-            setProfileNav('rgba(255, 255, 255)');
+    useEffect(() => {
+        localStorage.setItem('userSearchQuery', JSON.stringify(searchValue));
+        if (!searchValue) {
+            getNextTweets();
         }
+      }, [searchValue]);
+
+    function handleClick(e) {
+        props.navClick(e.target.innerHTML.toLowerCase());
     }
+
+    function searchClick() {
+        const displayUserOnly = JSON.parse(localStorage.getItem('displayUserOnly'));
+        if (displayUserOnly) return;
+        getNextTweets(searchValue);
+    }
+    
 
   return (
     <div className="navBar">
-        <Link to="/" className="navItem">
-            <span onClick={e=> handleClick("home")} style={{color: homeNav}} >Home</span>
-        </Link>
-        <Link to="/profile" className="navItem">
-            <span onClick={e=> handleClick("profile")} style={{color: profileNav}} >Profile</span>
-        </Link>
+        <NavLink to={auth.currentUser ? "/" : "/login"}
+        className={ isActive => "navItem" + (!isActive ? ' activeLink' : ' noneActiveLink')}>
+            <span onClick={handleClick} >Home</span>
+        </NavLink>
+        <NavLink to={auth.currentUser ? "/profile" : "/login"}
+                className={ isActive => "navItem" + (!isActive ? ' activeLink' : ' noneActiveLink')}>
+            <span onClick={handleClick} >Profile</span>
+        </NavLink>
+        <div className="searchBar">
+            <input value={searchValue} onChange={e=>setSearchValue(e.target.value)} type="search" name="searchBar" id="searchBar" placeholder='Search users'/>
+            <span className="searchIcon" onClick={searchClick}>🔍</span>
+        </div>
+        <div className="navItem loggedUser">
+            User: <b>{props.profileName}</b>
+        </div>
+        <NavLink to="/login"
+                className={ isActive => "navItem" + (!isActive ? ' activeLink' : ' noneActiveLink')}>
+            <span onClick={handleClick} >Logout</span>
+        </NavLink>
     </div>
   )
 }

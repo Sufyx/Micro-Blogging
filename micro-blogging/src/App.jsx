@@ -17,12 +17,10 @@ import TweetListContext from './context/TweetListContext';
 import FirebaseContext from './context/FirebaseContext';
 
 import { initializeApp } from "firebase/app";
-import {
-  getFirestore, collection, getDocs, onSnapshot,
-  where, setDoc, doc, query, orderBy, limit
-} from "firebase/firestore";
-import { getAuth, signOut, updateProfile } from "firebase/auth";
-import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { getFirestore, collection, getDocs, onSnapshot, 
+  where, setDoc, doc, query, orderBy, limit } from "firebase/firestore";
+import { getAuth, signOut, updateProfile, onAuthStateChanged } from "firebase/auth";
+import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 
 const firebaseConfig = {
@@ -34,7 +32,7 @@ const firebaseConfig = {
   appId: "1:744069185503:web:f1cbba300fb5c0cbe40e6a"
 };
 
-//** backup firebase user for quota issues
+//*** backup firebase user for quota issues ***
 // const firebaseConfig = {
 //   apiKey: "AIzaSyD9xElHz_e0-Ks2W7t5rZkVPHnOLjUVtQA",
 //   authDomain: "micro-blogging-d5804.firebaseapp.com",
@@ -66,21 +64,22 @@ function App() {
 
 
   useEffect(() => {
-    const logged = JSON.parse(localStorage.getItem('userLogged'));
-    // const logged = auth.currentUser;
-    if (logged) {
-      getNextTweets();
-    } else {
-      navigate('/login');
-    }
-    getUserImg(logged);
+    const unsubAuth = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        getNextTweets();
+        getUserImg(user)
+      } else {
+        navigate('/login');
+      }
+    });
+    unsubAuth();
     localStorage.setItem('scrollCount', JSON.stringify(1));
     localStorage.setItem('displayUserOnly', JSON.stringify(false));
     localStorage.setItem('userSearchQuery', JSON.stringify(''));
 
     document.addEventListener('scroll', scrollHandler);
 
-    // disable when not necessary, high usage of firebase daily quota
+    // disable when not necessary, high usage of firebase quota
     onSnapshot(tweetColRef, () => {
       getNextTweets();
     });
@@ -99,13 +98,12 @@ function App() {
     const scrollCount = Number(JSON.parse(localStorage.getItem('scrollCount')));
     const displayUserOnly = JSON.parse(localStorage.getItem('displayUserOnly'));
     const userSearchQuery = JSON.parse(localStorage.getItem('userSearchQuery'));
-    
+
     let next = query(
       tweetColRef,
       orderBy('date', 'desc'),
       limit(10 * scrollCount));
     if (displayUserOnly) {
-      // if (userSearchQuery) return;
       next = query(
         tweetColRef,
         where("userID", "==", auth.currentUser.uid),
@@ -137,20 +135,20 @@ function App() {
     localStorage.setItem('scrollCount', JSON.stringify(1));
     if (toPage === "logout") {
       signOut(auth).then(() => {
-        localStorage.setItem('userLogged', JSON.stringify(false));
         changeUserName("No-User");
       }).catch(err => {
         console.error("Caught error: ", err.message);
       })
     }
-    const logged = JSON.parse(localStorage.getItem('userLogged'));
-    // const logged = auth.currentUser;
-    if (!logged) {
-      navigate('/login');
-      return;
-    }
+    const unsubAuth = onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        navigate('/login');
+        return;
+      }
+    });
+    unsubAuth();
     if (toPage === "home") {
-      navigate('/'); 
+      navigate('/');
       getNextTweets();
     }
   }
@@ -177,7 +175,6 @@ function App() {
 
 
   function connectUser(userCred) {
-    localStorage.setItem('userLogged', JSON.stringify(userCred));
     changeUserName(userCred.displayName);
     navClick('home');
     setUserRef();
@@ -186,26 +183,13 @@ function App() {
 
 
   async function setUserRef() {
-    const userCred = JSON.parse(localStorage.getItem('userLogged'));
-    await setDoc(doc(db, "userList", userCred.uid), {
-      userName: JSON.parse(localStorage.getItem('profileName')),
-      userID: userCred.uid
-    }, { merge: true })
-  }
-
-
-  async function setUserImg(imgSrc) {
-    const userCred = JSON.parse(localStorage.getItem('userLogged'));
-    const imgRef = ref(storage, userCred.uid + '.png');
-    uploadBytes(imgRef, imgSrc).then((snapshot) => {
-      console.log('uploaded img ', snapshot);
-    }).catch(err => {
-      console.error("Caught error: ", err.message);
+    const unsubAuth = onAuthStateChanged(auth, (user) => {
+      setDoc(doc(db, "userList", user.uid), {
+        userName: JSON.parse(localStorage.getItem('profileName')),
+        userID: user.uid
+      }, { merge: true })
     });
-    await setDoc(doc(db, "userList", userCred.uid), {
-      userImg: userCred.uid + '.png'
-    }, { merge: true });
-    getUserImg(userCred);
+    unsubAuth();
   }
 
 
@@ -247,7 +231,8 @@ function App() {
       <div className="spinner-grow text-info m-auto mt-5 loader" style={{ display: loaderToggle }} role="status"></div>
       <TweetsList />
     </div>;
-  const profilePage = <Profile changeUserName={changeUserName} profileName={profileName} setUserRef={setUserRef} setUserImg={setUserImg} />
+  const profilePage = <Profile changeUserName={changeUserName}
+    profileName={profileName} setUserRef={setUserRef} getUserImg={getUserImg} />
   const loginPage = <Login connectUser={connectUser} />
 
 

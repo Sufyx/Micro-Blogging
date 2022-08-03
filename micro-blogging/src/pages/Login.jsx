@@ -6,12 +6,9 @@
 */
 
 import React, { useState, useEffect, useContext } from 'react';
-import {
-  signInWithEmailAndPassword, createUserWithEmailAndPassword,
-  signInWithPopup, GoogleAuthProvider
-} from "firebase/auth";
+import {signInWithEmailAndPassword, signInWithPopup, 
+  createUserWithEmailAndPassword, GoogleAuthProvider} from "firebase/auth";
 import FirebaseContext from '../context/FirebaseContext';
-
 
 
 export default function Login({connectUser}) {
@@ -26,7 +23,7 @@ export default function Login({connectUser}) {
   const [loginError, setLoginError] = useState('');
 
   useEffect(() => {
-    setLoginError("Please login/sign up to proceed.");
+    setLoginError("Please log-in/sign-up to proceed.");
   }, []);
 
   function saveClick(e) {
@@ -88,7 +85,6 @@ export default function Login({connectUser}) {
         setLoginError(err.message);
       });
   }
-
 
 
   function switchMode() {

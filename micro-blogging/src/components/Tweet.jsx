@@ -12,7 +12,7 @@ import { ref, getDownloadURL } from "firebase/storage";
 
 export default function Tweet(props) {
 
-  const {db, usersColRef, storage} = useContext(FirebaseContext);
+  const {usersColRef, storage} = useContext(FirebaseContext);
   const [userName, setUserName] = useState("N/A");
   const [profilePic, setProfilePic] = useState('https://icon-library.com/images/default-profile-icon/default-profile-icon-6.jpg');
 
@@ -22,8 +22,6 @@ export default function Tweet(props) {
         let data = { ...document.data() };
         if (data.userID === props.tweet.userID) {
           setUserName(data.userName);
-          // const tweetRef = doc(db, 'tweetList', props.tweet.id);
-          // setDoc(tweetRef,{ userName: data.userName }, { merge: true });
           getDownloadURL(ref(storage, data.userImg))
           .then((url) => {
             setProfilePic(url);

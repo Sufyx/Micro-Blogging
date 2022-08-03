@@ -18,17 +18,10 @@ html, body, .main {
   font-style: normal;
 }
 
-/* .main  */
-  
-
-
 .feed {
   display: flex;
   flex-direction: column;
 }
-/* .feed, .tweetListContainer { 
-  height: 100%;
-} */
 
 .navBar {
   display: flex;
@@ -83,7 +76,6 @@ html, body, .main {
   resize: none;
   border: none;
   background: transparent;
-  /* background-color: #243447; */
   color: #cccccc;
 }
 .createTweetInput::placeholder {

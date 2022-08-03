@@ -5,16 +5,19 @@
  * Asaf Gilboa
 */
 
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import TweetListContext from '../context/TweetListContext';
+import FirebaseContext from '../context/FirebaseContext';
+import { setDoc, doc } from "firebase/firestore";
+import { onAuthStateChanged } from "firebase/auth";
+import { ref, uploadBytes } from "firebase/storage";
 
 export default function Profile(props) {
 
   const {profilePic} = useContext(TweetListContext);
+  const { db, auth, storage } = useContext(FirebaseContext);
   const [profileName, setProfileName] = useState('');
   const [fileChosen, setFileChosen] = useState(false);
-
-
 
 
   function saveClick() {
@@ -28,9 +31,25 @@ export default function Profile(props) {
   function uploadImg(e) {
     setFileChosen(true);
     if (e.target.files[0]) {
-      props.setUserImg(e.target.files[0]);
+      setUserImg(e.target.files[0]);
     }
     setFileChosen(false);
+  }
+
+  async function setUserImg(imgSrc) {
+    const unsubAuth = onAuthStateChanged(auth, (user) => {
+      const imgRef = ref(storage, user.uid + '.png');
+      uploadBytes(imgRef, imgSrc).then((snapshot) => {
+        console.log('uploaded img ', snapshot);
+      }).catch(err => {
+        console.error("Caught error: ", err.message);
+      });
+      setDoc(doc(db, "userList", user.uid), {
+        userImg: user.uid + '.png'
+      }, { merge: true });
+      props.getUserImg(user);
+    });
+    unsubAuth();
   }
 
 
@@ -54,7 +73,6 @@ export default function Profile(props) {
               <span disabled={fileChosen} className="uploadImgBtn profileBtn btn btn-primary">Upload New Image</span>
               <input disabled={fileChosen} type="file" onChange={uploadImg} id="imgInput" />
             </label>
-            {/* <button onClick={saveImg} disabled={fileChosen} className="imgBtn profileBtn btn btn-primary">Save Image</button> */}
           </div>
         </div>
       </div>

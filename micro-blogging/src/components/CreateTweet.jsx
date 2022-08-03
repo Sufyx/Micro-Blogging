@@ -35,7 +35,6 @@ export default function CreateTweet() {
 
   async function publishClick(e) {
     if (formText === '') {
-      console.log('Spam control');
       return;
     }
     e.target.style.pointerEvents = "none";
@@ -58,7 +57,6 @@ export default function CreateTweet() {
   async function addTweet(tweet) {
     addDoc(tweetColRef, {
       content: tweet.content,
-      // userName: tweet.userName,
       userID: tweet.userID,
       date: tweet.date,
       id: tweet.id

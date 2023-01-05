@@ -1,7 +1,5 @@
-/** PROFILE
- * ITC Full-Stack Bootcamp
- * React Micro Blogging assignment
- * 26/07/2022
+/** 
+ * Micro Blogging
  * Asaf Gilboa
 */
 

@@ -1,7 +1,5 @@
-/**
- * ITC Full-Stack Bootcamp
- * React Micro Blogging assignment
- * 24/07/2022
+/** 
+ * Micro Blogging
  * Asaf Gilboa
 */
 
@@ -24,24 +22,25 @@ import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyDJq5Qr-sJuTbpLpLvIaaQ7_i2h9udyYGs",
-  authDomain: "micro-blogging-56f49.firebaseapp.com",
-  projectId: "micro-blogging-56f49",
-  storageBucket: "micro-blogging-56f49.appspot.com",
-  messagingSenderId: "744069185503",
-  appId: "1:744069185503:web:f1cbba300fb5c0cbe40e6a"
+  apiKey: "AIzaSyD9xElHz_e0-Ks2W7t5rZkVPHnOLjUVtQA",
+  authDomain: "micro-blogging-d5804.firebaseapp.com",
+  projectId: "micro-blogging-d5804",
+  storageBucket: "micro-blogging-d5804.appspot.com",
+  messagingSenderId: "1024241032717",
+  appId: "1:1024241032717:web:3b41386c9f26b046c83f44",
+  measurementId: "G-MMNHPE90GP"
 };
 
 //*** backup firebase user for quota issues ***
 // const firebaseConfig = {
-//   apiKey: "AIzaSyD9xElHz_e0-Ks2W7t5rZkVPHnOLjUVtQA",
-//   authDomain: "micro-blogging-d5804.firebaseapp.com",
-//   projectId: "micro-blogging-d5804",
-//   storageBucket: "micro-blogging-d5804.appspot.com",
-//   messagingSenderId: "1024241032717",
-//   appId: "1:1024241032717:web:3b41386c9f26b046c83f44",
-//   measurementId: "G-MMNHPE90GP"
+//   apiKey: "AIzaSyDJq5Qr-sJuTbpLpLvIaaQ7_i2h9udyYGs",
+//   authDomain: "micro-blogging-56f49.firebaseapp.com",
+//   projectId: "micro-blogging-56f49",
+//   storageBucket: "micro-blogging-56f49.appspot.com",
+//   messagingSenderId: "744069185503",
+//   appId: "1:744069185503:web:f1cbba300fb5c0cbe40e6a"
 // };
+
 
 
 const app = initializeApp(firebaseConfig);

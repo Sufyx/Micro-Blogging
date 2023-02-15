@@ -1,9 +1,8 @@
 /**
- * ITC Full-Stack Bootcamp
- * React Micro Blogging assignment
- * 24/07/2022
+ * Micro Blogging
  * Asaf Gilboa
 */
+
 
 import React, { useState, useContext, useEffect } from 'react';
 import FirebaseContext from '../context/FirebaseContext';

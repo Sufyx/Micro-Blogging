@@ -1,9 +1,8 @@
 /**
- * ITC Full-Stack Bootcamp
- * React Micro Blogging assignment
- * 24/07/2022
+ * Micro Blogging assignment
  * Asaf Gilboa
 */
+
 
 import React, { useEffect, useState, useContext } from 'react';
 import TweetListContext from '../context/TweetListContext';

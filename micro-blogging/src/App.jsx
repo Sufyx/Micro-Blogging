@@ -15,9 +15,13 @@ import TweetListContext from './context/TweetListContext';
 import FirebaseContext from './context/FirebaseContext';
 
 import { initializeApp } from "firebase/app";
-import { getFirestore, collection, getDocs, onSnapshot, 
-  where, setDoc, doc, query, orderBy, limit } from "firebase/firestore";
-import { getAuth, signOut, updateProfile, onAuthStateChanged } from "firebase/auth";
+import {
+  getFirestore, collection, getDocs, onSnapshot,
+  where, setDoc, doc, query, orderBy, limit
+} from "firebase/firestore";
+import {
+  getAuth, signOut, updateProfile, onAuthStateChanged
+} from "firebase/auth";
 import { getStorage, ref, getDownloadURL } from "firebase/storage";
 
 
@@ -227,7 +231,8 @@ function App() {
   const homePage =
     <div className="feed">
       <CreateTweet />
-      <div className="spinner-grow text-info m-auto mt-5 loader" style={{ display: loaderToggle }} role="status"></div>
+      <div className="spinner-grow text-info m-auto mt-5 loader"
+        style={{ display: loaderToggle }} role="status"></div>
       <TweetsList />
     </div>;
   const profilePage = <Profile changeUserName={changeUserName}
@@ -238,7 +243,8 @@ function App() {
   return (
     <div className={bgControl}>
       <FirebaseContext.Provider value={{ db, auth, usersColRef, tweetColRef, storage }}>
-        <TweetListContext.Provider value={{ tweetList, getNextTweets, profilePic, updateBG }}>
+        <TweetListContext.Provider
+          value={{ tweetList, getNextTweets, profilePic, updateBG }}>
           <NavBar navClick={navClick} profileName={profileName} />
           <Routes >
             <Route path="/" element={homePage} />

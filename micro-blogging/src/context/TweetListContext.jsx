@@ -1,9 +1,8 @@
 /**
- * ITC Full-Stack Bootcamp
- * React Micro Blogging assignment
- * 27/07/2022
+ * Micro Blogging
  * Asaf Gilboa
 */
+
 
 import React, {createContext} from 'react';
 
